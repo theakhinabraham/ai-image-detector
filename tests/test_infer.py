@@ -65,3 +65,12 @@ def test_preprocessing_shape_and_dtype(app_root):
     img, _ = load_image_safe(image_bytes("WEBP", size=(500, 300)))
     x = p.transform(img)
     assert x.shape == (3, 32, 32) and x.dtype == torch.float32
+
+
+def test_heavy_compression_warning_through_full_pipeline(app_root):
+    """Regression test: the quality must survive load_image_safe (exif_transpose copies the image)."""
+    _, info = load_image_safe(image_bytes("JPEG", size=(100, 100), quality=25))
+    assert info["jpeg_quality"] is not None and abs(info["jpeg_quality"] - 25) <= 3
+    p = Predictor("testcnn", app_root / "checkpoints/testcnn.pt", app_root / "reports/calibration_testcnn.json")
+    out = p.predict(image_bytes("JPEG", size=(100, 100), quality=25))
+    assert any("heavily JPEG-compressed" in w for w in out["warnings"])

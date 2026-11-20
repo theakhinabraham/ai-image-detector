@@ -50,8 +50,10 @@ def load_image_safe(data: bytes) -> tuple[Image.Image, dict]:
                 raise ImageError(f"Image is too large ({w}x{h} pixels). Maximum is 25 megapixels.")
             probe.verify()
         with Image.open(io.BytesIO(data)) as img:
-            img = ImageOps.exif_transpose(img)
+            # Read the JPEG quality BEFORE exif_transpose: that returns a copy
+            # which no longer carries the file's quantisation tables.
             jpeg_quality = estimate_jpeg_quality(img) if fmt == "JPEG" else None
+            img = ImageOps.exif_transpose(img)
             rgb = np.asarray(img.convert("RGB"))
     except ImageError:
         raise

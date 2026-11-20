@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Image Detector</title>
+<style>
+  :root {
+    --bg: #f6f7f9; --card: #ffffff; --text: #1d2330; --muted: #5d6677; --line: #dde1e8;
+    --accent: #3157d5; --real: #1f8a5b; --unsure: #b7791f; --fake: #c2410c; --warn-bg: #fff7e6;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #12151c; --card: #1b2029; --text: #e7eaf0; --muted: #9aa3b5; --line: #2c3340;
+            --accent: #7c9cff; --real: #4cc38a; --unsure: #f0b44c; --fake: #ff8a5b; --warn-bg: #2a2416; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text);
+         font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 980px; margin: 0 auto; padding: 24px 16px 48px; }
+  h1 { font-size: 1.5rem; margin: 0 0 4px; }
+  .sub { color: var(--muted); margin: 0 0 16px; }
+  .disclaimer { border-left: 4px solid var(--fake); background: var(--warn-bg);
+                padding: 10px 14px; border-radius: 6px; font-weight: 600; margin-bottom: 20px; }
+  .grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; }
+  @media (max-width: 760px) { .grid { grid-template-columns: minmax(0, 1fr); } }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 16px; }
+  .card h2 { font-size: 1rem; margin: 0 0 12px; }
+  label { font-weight: 600; display: block; margin-bottom: 6px; }
+  select, button { font: inherit; }
+  select { width: 100%; padding: 8px; border-radius: 6px; border: 1px solid var(--line);
+           background: var(--card); color: var(--text); }
+  #drop { margin-top: 14px; border: 2px dashed var(--line); border-radius: 10px; padding: 22px;
+          text-align: center; cursor: pointer; color: var(--muted); transition: border-color .15s; }
+  #drop.over, #drop:focus-visible { border-color: var(--accent); outline: none; color: var(--text); }
+  /* fixed height so tiny images (e.g. 32x32) are enlarged and large ones shrunk */
+  #preview { display: none; height: 200px; max-width: 100%; object-fit: contain; margin: 12px auto 0;
+             border-radius: 6px; image-rendering: pixelated; }
+  button.primary { margin-top: 14px; width: 100%; padding: 10px; border: 0; border-radius: 6px;
+                   background: var(--accent); color: #fff; font-weight: 600; cursor: pointer; }
+  button.primary:disabled { opacity: .5; cursor: not-allowed; }
+  .stats { color: var(--muted); font-size: .88rem; margin-top: 10px; }
+  .stats b { color: var(--text); }
+  .error { display: none; margin-top: 12px; padding: 10px 12px; border-radius: 6px;
+           background: var(--warn-bg); border-left: 4px solid var(--fake); }
+  .verdict { font-size: 1.35rem; font-weight: 700; margin: 0; }
+  .prob { color: var(--muted); margin: 2px 0 12px; }
+  .bar { position: relative; height: 12px; border-radius: 6px; overflow: hidden;
+         background: linear-gradient(90deg, var(--real) 0 35%, var(--unsure) 35% 65%, var(--fake) 65% 100%); opacity: .9; }
+  .marker { position: absolute; top: -3px; width: 4px; height: 18px; background: var(--text);
+            border-radius: 2px; transform: translateX(-2px); }
+  .bar-labels { display: flex; justify-content: space-between; font-size: .78rem; color: var(--muted); margin-top: 4px; }
+  .viz { position: relative; width: 100%; max-width: 320px; aspect-ratio: 1; margin: 14px auto 6px; }
+  .viz img { position: absolute; inset: 0; width: 100%; height: 100%; border-radius: 6px; }
+  .slider { display: flex; align-items: center; gap: 10px; font-size: .88rem; color: var(--muted); }
+  .slider input { flex: 1; }
+  ul.warnings { padding-left: 18px; margin: 10px 0 0; font-size: .9rem; }
+  ul.warnings li { margin-bottom: 4px; }
+  .meta { font-size: .82rem; color: var(--muted); margin-top: 10px; }
+  .placeholder { color: var(--muted); }
+  #result-body { display: none; }
+</style>
+</head>
+<body>
+<main>
+  <h1>AI-Generated Image Detector</h1>
+  <p class="sub">A student project: every model here was trained in this repository. Runs only on this computer; images are never stored.</p>
+  <div class="disclaimer" role="note">This is a probability estimate, not proof. Do not use it to accuse anyone.</div>
+
+  <div class="grid">
+    <section class="card" aria-labelledby="up-h">
+      <h2 id="up-h">1. Choose a model and an image</h2>
+      <label for="model">Model</label>
+      <select id="model" aria-describedby="model-stats"></select>
+      <div id="model-stats" class="stats">Loading model information…</div>
+
+      <div id="drop" tabindex="0" role="button" aria-label="Upload an image: click or drag and drop">
+        Drag and drop an image here, or click to choose.<br><small>JPEG, PNG or WebP, up to 5 MB</small>
+        <img id="preview" alt="Preview of the selected image">
+      </div>
+      <input id="file" type="file" accept="image/jpeg,image/png,image/webp" hidden>
+      <button id="go" class="primary" disabled>Analyse image</button>
+      <div id="error" class="error" role="alert"></div>
+    </section>
+
+    <section class="card" aria-labelledby="res-h" aria-live="polite">
+      <h2 id="res-h">2. Result</h2>
+      <p id="result-empty" class="placeholder">No image analysed yet.</p>
+      <div id="result-body">
+        <p id="verdict" class="verdict"></p>
+        <p id="prob" class="prob"></p>
+        <div class="bar" aria-hidden="true"><div id="marker" class="marker"></div></div>
+        <div class="bar-labels"><span>likely real</span><span>uncertain</span><span>likely AI</span></div>
+
+        <div class="viz">
+          <img id="seen" alt="The part of the image the model analysed">
+          <img id="heat" alt="Grad-CAM heatmap: red areas influenced the decision most">
+        </div>
+        <div class="slider">
+          <label for="opacity" style="margin:0;font-weight:400">Heatmap opacity</label>
+          <input id="opacity" type="range" min="0" max="100" value="45">
+        </div>
+        <p class="meta">Heatmap (Grad-CAM): red regions influenced this model's decision most. It shows where the model looked, not why an image is fake.</p>
+        <ul id="warnings" class="warnings"></ul>
+        <p id="meta" class="meta"></p>
+      </div>
+    </section>
+  </div>
+</main>
+
+<script>
+const MAX_BYTES = 5 * 1024 * 1024;
+const TYPES = ["image/jpeg", "image/png", "image/webp"];
+const $ = (id) => document.getElementById(id);
+let chosenFile = null, cards = [];
+
+const pct = (x) => (x == null ? "n/a" : (100 * x).toFixed(1) + "%");
+const num = (x) => (x == null ? "n/a" : x.toFixed(3));
+
+function showError(msg) { $("error").textContent = msg; $("error").style.display = msg ? "block" : "none"; }
+
+// Model list and headline numbers come from /models, which reads reports/*.json.
+async function loadModels() {
+  try {
+    const res = await fetch("/models");
+    cards = (await res.json()).models;
+  } catch { cards = []; }
+  if (!cards.length) {
+    $("model-stats").textContent = "No trained models found. Train one first (see README).";
+    return;
+  }
+  for (const c of cards) $("model").add(new Option(c.label, c.name));
+  showStats();
+}
+
+function showStats() {
+  const c = cards.find((m) => m.name === $("model").value);
+  if (!c) return;
+  const parts = [];
+  if (c.cifake_test) parts.push(`CIFAKE test (n=${c.cifake_test.n.toLocaleString()}): accuracy <b>${pct(c.cifake_test.accuracy)}</b>, ROC-AUC <b>${num(c.cifake_test.roc_auc)}</b>`);
+  if (c.cocoai_test) parts.push(`COCOAI held-out images, 5 newer generators (n=${c.cocoai_test.n.toLocaleString()}): ROC-AUC <b>${num(c.cocoai_test.roc_auc)}</b>, real photos correct <b>${pct(c.cocoai_test.real_photos_correct)}</b>`);
+  if (c.input_size) parts.push(`Input size: ${c.input_size}×${c.input_size} pixels`);
+  $("model-stats").innerHTML = parts.join("<br>");
+}
+
+function pickFile(file) {
+  showError("");
+  if (!file) return;
+  if (!TYPES.includes(file.type)) { showError("Please choose a JPEG, PNG or WebP image."); return; }
+  if (file.size > MAX_BYTES) { showError("That image is larger than 5 MB. Please choose a smaller file."); return; }
+  chosenFile = file;
+  const url = URL.createObjectURL(file);
+  $("preview").src = url;
+  $("preview").style.display = "block";
+  $("go").disabled = false;
+}
+
+async function analyse() {
+  if (!chosenFile) return;
+  showError("");
+  $("go").disabled = true;
+  $("go").textContent = "Analysing…";
+  const form = new FormData();
+  form.append("file", chosenFile);
+  form.append("model", $("model").value);
+  try {
+    const res = await fetch("/predict", { method: "POST", body: form });
+    const body = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      const detail = typeof body.detail === "string" ? body.detail : "The server could not process this image.";
+      showError(detail);
+      return;
+    }
+    render(body);
+  } catch {
+    showError("Could not reach the server. Is the app still running?");
+  } finally {
+    $("go").disabled = false;
+    $("go").textContent = "Analyse image";
+  }
+}
+
+function render(r) {
+  $("result-empty").style.display = "none";
+  $("result-body").style.display = "block";
+  const colour = { "likely real": "var(--real)", "uncertain": "var(--unsure)", "likely AI-generated": "var(--fake)" }[r.verdict];
+  $("verdict").textContent = r.verdict.charAt(0).toUpperCase() + r.verdict.slice(1);
+  $("verdict").style.color = colour;
+  $("prob").textContent = `Estimated probability AI-generated: ${pct(r.probability_fake)}` + (r.calibrated ? " (calibrated)" : " (uncalibrated)");
+  $("marker").style.left = `${100 * r.probability_fake}%`;
+  $("seen").src = "data:image/png;base64," + r.image_png;
+  $("heat").src = "data:image/png;base64," + r.heatmap_png;
+  $("heat").style.opacity = $("opacity").value / 100;
+  $("warnings").innerHTML = "";
+  for (const w of r.warnings) {
+    const li = document.createElement("li");
+    li.textContent = w;
+    $("warnings").appendChild(li);
+  }
+  $("meta").textContent = `Model: ${r.model} · original size ${r.original_size.join("×")} · ${r.latency_ms.toFixed(0)} ms`;
+}
+
+const drop = $("drop");
+drop.addEventListener("click", () => $("file").click());
+drop.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); $("file").click(); } });
+drop.addEventListener("dragover", (e) => { e.preventDefault(); drop.classList.add("over"); });
+drop.addEventListener("dragleave", () => drop.classList.remove("over"));
+drop.addEventListener("drop", (e) => { e.preventDefault(); drop.classList.remove("over"); pickFile(e.dataTransfer.files[0]); });
+$("file").addEventListener("change", (e) => pickFile(e.target.files[0]));
+$("go").addEventListener("click", analyse);
+$("model").addEventListener("change", showStats);
+$("opacity").addEventListener("input", (e) => { $("heat").style.opacity = e.target.value / 100; });
+loadModels();
+</script>
+</body>
+</html>
