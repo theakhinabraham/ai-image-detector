@@ -1,4 +1,6 @@
-# Experiment config for the baseline SmallCNN on CIFAKE (32x32).
+# Experiment config for the baseline SmallCNN on CIFAKE (32x32), trained from scratch on CPU.
+run_name: smallcnn
+seed: 42
 data:
   root: data/raw/cifake        # contains train/{REAL,FAKE} and test/{REAL,FAKE}
   splits_file: data/splits.json
@@ -9,4 +11,12 @@ data:
   std: [0.5, 0.5, 0.5]
   batch_size: 128
   num_workers: 4
-seed: 42
+model:
+  name: smallcnn
+  dropout: 0.3
+train:
+  device: cpu
+  epochs: 15
+  lr: 0.001                    # Adam's usual default
+  weight_decay: 0.0001         # small L2 penalty to discourage very large weights
+  patience: 3                  # early stopping: epochs without val AUC improvement

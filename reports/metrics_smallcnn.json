@@ -1,0 +1,21 @@
+{
+  "n": 20000,
+  "accuracy": 0.96495,
+  "precision": 0.9613056850878063,
+  "recall": 0.9689,
+  "f1": 0.9650879027840031,
+  "confusion_matrix": {
+    "tn": 9610,
+    "fp": 390,
+    "fn": 311,
+    "tp": 9689
+  },
+  "roc_auc": 0.9942584299999999,
+  "run": "smallcnn",
+  "dataset": "CIFAKE official test set",
+  "threshold": 0.5,
+  "parameters": 355873,
+  "cpu_ms_per_image": 0.23047145499731414,
+  "cpu_threads": 10,
+  "input_size": 32
+}

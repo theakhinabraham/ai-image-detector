@@ -5,7 +5,7 @@ from pathlib import Path
 import torch
 from PIL import Image
 
-from src.data import CifakeDataset, build_transforms, make_splits
+from src.data import ImageDataset, build_transforms, make_splits
 
 
 def _make_fake_cifake(root: Path, n_per_class: int = 20) -> None:
@@ -38,6 +38,6 @@ def test_transform_shape_and_dtype(tmp_path):
     for size in (32, 64):
         for train in (True, False):
             tf = build_transforms(size, [0.5] * 3, [0.5] * 3, train=train)
-            x, y = CifakeDataset(tmp_path, items, tf)[0]
+            x, y = ImageDataset(tmp_path, items, tf)[0]
             assert x.shape == (3, size, size) and x.dtype == torch.float32 and y == 0
             assert x.min() >= -1.0 and x.max() <= 1.0  # normalised range
