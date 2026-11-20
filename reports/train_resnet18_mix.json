@@ -1,0 +1,11 @@
+{
+  "run": "resnet18_mix",
+  "device": "mps",
+  "max_epochs": 10,
+  "epochs_run": 10,
+  "best_epoch": 10,
+  "best_val_auc": 0.9473939159077698,
+  "mean_seconds_per_epoch": 3.3583655834197996,
+  "parameters": 11177025,
+  "torch_threads": 10
+}

@@ -1,0 +1,66 @@
+{
+  "source_files": [
+    "train-00000-of-00007.parquet",
+    "train-00001-of-00007.parquet",
+    "validation-00000-of-00002.parquet",
+    "validation-00001-of-00002.parquet"
+  ],
+  "skipped_invalid": 0,
+  "counts": {
+    "test": {
+      "SD2.1": 1000,
+      "SD3": 1000,
+      "DALLE3": 1000,
+      "Midjourney6": 1000,
+      "real": 1000,
+      "SDXL": 1000
+    },
+    "ft_train": {
+      "real": 800,
+      "SD2.1": 160,
+      "DALLE3": 160,
+      "SD3": 160,
+      "SDXL": 160,
+      "Midjourney6": 160
+    },
+    "ft_val": {
+      "DALLE3": 40,
+      "real": 200,
+      "Midjourney6": 40,
+      "SDXL": 40,
+      "SD2.1": 40,
+      "SD3": 40
+    }
+  },
+  "square_fraction_by_generator": {
+    "real": 0.03,
+    "SD2.1": 1.0,
+    "SDXL": 1.0,
+    "SD3": 1.0,
+    "DALLE3": 1.0,
+    "Midjourney6": 1.0
+  },
+  "common_sizes_by_generator": {
+    "real": {
+      "640x480": 460,
+      "640x427": 234,
+      "480x640": 160
+    },
+    "SD2.1": {
+      "768x768": 1200
+    },
+    "SDXL": {
+      "1024x1024": 1200
+    },
+    "SD3": {
+      "1024x1024": 1200
+    },
+    "DALLE3": {
+      "270x270": 1194,
+      "351x351": 6
+    },
+    "Midjourney6": {
+      "436x436": 1200
+    }
+  }
+}

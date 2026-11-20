@@ -1,0 +1,11 @@
+{
+  "run": "smallcnn_mix",
+  "device": "cpu",
+  "max_epochs": 10,
+  "epochs_run": 10,
+  "best_epoch": 10,
+  "best_val_auc": 0.891856416923452,
+  "mean_seconds_per_epoch": 2.187199664115906,
+  "parameters": 355873,
+  "torch_threads": 10
+}

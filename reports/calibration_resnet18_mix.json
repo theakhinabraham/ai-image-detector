@@ -1,0 +1,13 @@
+{
+  "run": "resnet18_mix",
+  "temperature": 1.5009898424791335,
+  "fitted_on": "validation split",
+  "reported_on": "CIFAKE test set",
+  "val_nll_before": 0.10935885246593162,
+  "val_nll_after": 0.09777906831559069,
+  "test_nll_before": 0.10613118324238625,
+  "test_nll_after": 0.0959903425123787,
+  "test_ece_before": 0.014684726727008771,
+  "test_ece_after": 0.0032624745488166974,
+  "n_bins": 15
+}

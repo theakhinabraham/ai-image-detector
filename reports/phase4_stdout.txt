@@ -1,0 +1,244 @@
+=== smallcnn calibrate
+{
+  "run": "smallcnn",
+  "temperature": 0.9517486428540595,
+  "fitted_on": "validation split",
+  "reported_on": "CIFAKE test set",
+  "val_nll_before": 0.09457878730431846,
+  "val_nll_after": 0.0944250939151861,
+  "test_nll_before": 0.09561174571698987,
+  "test_nll_after": 0.09541472402101638,
+  "test_ece_before": 0.004944779375195506,
+  "test_ece_after": 0.004085332852602031,
+  "n_bins": 15
+}
+=== smallcnn robustness
+clean        acc 0.9649  auc 0.9943  recall 0.9689
+jpeg_q90     acc 0.9635  auc 0.9938  recall 0.9663
+jpeg_q70     acc 0.9576  auc 0.9941  recall 0.9810
+jpeg_q50     acc 0.9304  auc 0.9882  recall 0.9806
+jpeg_q30     acc 0.9125  auc 0.9814  recall 0.8487
+resize_0.75  acc 0.6487  auc 0.8514  recall 0.3084
+resize_0.5   acc 0.6870  auc 0.8005  recall 0.4388
+blur_r0.5    acc 0.8117  auc 0.9757  recall 0.6283
+blur_r1.0    acc 0.6563  auc 0.8040  recall 0.3383
+=== smallcnn cocoai
+{
+  "run": "smallcnn",
+  "dataset": "COCOAI subset, held-out test split",
+  "threshold": 0.5,
+  "overall": {
+    "n": 6000,
+    "accuracy": 0.4648333333333333,
+    "precision": 0.8837408837408838,
+    "recall": 0.412,
+    "f1": 0.5619969990451508,
+    "confusion_matrix": {
+      "tn": 729,
+      "fp": 271,
+      "fn": 2940,
+      "tp": 2060
+    },
+    "roc_auc": 0.581213
+  },
+  "real_photos_correct": 0.729,
+  "per_generator": {
+    "DALLE3": {
+      "n": 2000,
+      "accuracy": 0.4615,
+      "precision": 0.4172043010752688,
+      "recall": 0.194,
+      "f1": 0.26484641638225254,
+      "confusion_matrix": {
+        "tn": 729,
+        "fp": 271,
+        "fn": 806,
+        "tp": 194
+      },
+      "roc_auc": 0.432492,
+      "fakes_caught": 0.194
+    },
+    "Midjourney6": {
+      "n": 2000,
+      "accuracy": 0.4585,
+      "precision": 0.4095860566448802,
+      "recall": 0.188,
+      "f1": 0.2577107607950651,
+      "confusion_matrix": {
+        "tn": 729,
+        "fp": 271,
+        "fn": 812,
+        "tp": 188
+      },
+      "roc_auc": 0.4289430000000001,
+      "fakes_caught": 0.188
+    },
+    "SD2.1": {
+      "n": 2000,
+      "accuracy": 0.7265,
+      "precision": 0.7276381909547739,
+      "recall": 0.724,
+      "f1": 0.7258145363408521,
+      "confusion_matrix": {
+        "tn": 729,
+        "fp": 271,
+        "fn": 276,
+        "tp": 724
+      },
+      "roc_auc": 0.804076,
+      "fakes_caught": 0.724
+    },
+    "SD3": {
+      "n": 2000,
+      "accuracy": 0.621,
+      "precision": 0.6543367346938775,
+      "recall": 0.513,
+      "f1": 0.5751121076233184,
+      "confusion_matrix": {
+        "tn": 729,
+        "fp": 271,
+        "fn": 487,
+        "tp": 513
+      },
+      "roc_auc": 0.635059,
+      "fakes_caught": 0.513
+    },
+    "SDXL": {
+      "n": 2000,
+      "accuracy": 0.585,
+      "precision": 0.6193820224719101,
+      "recall": 0.441,
+      "f1": 0.5151869158878505,
+      "confusion_matrix": {
+        "tn": 729,
+        "fp": 271,
+        "fn": 559,
+        "tp": 441
+      },
+      "roc_auc": 0.605495,
+      "fakes_caught": 0.441
+    }
+  }
+}
+=== resnet18 calibrate
+{
+  "run": "resnet18",
+  "temperature": 1.0288829441132512,
+  "fitted_on": "validation split",
+  "reported_on": "CIFAKE test set",
+  "val_nll_before": 0.05748150360366459,
+  "val_nll_after": 0.05744077977027771,
+  "test_nll_before": 0.06004155559768063,
+  "test_nll_after": 0.059987020161143344,
+  "test_ece_before": 0.002834501424431815,
+  "test_ece_after": 0.002467377737164519,
+  "n_bins": 15
+}
+=== resnet18 robustness
+clean        acc 0.9778  auc 0.9977  recall 0.9815
+jpeg_q90     acc 0.9777  auc 0.9976  recall 0.9798
+jpeg_q70     acc 0.9750  auc 0.9973  recall 0.9841
+jpeg_q50     acc 0.9599  auc 0.9933  recall 0.9558
+jpeg_q30     acc 0.9190  auc 0.9882  recall 0.8515
+resize_0.75  acc 0.6453  auc 0.9082  recall 0.2938
+resize_0.5   acc 0.6263  auc 0.7534  recall 0.3234
+blur_r0.5    acc 0.8709  auc 0.9909  recall 0.7434
+blur_r1.0    acc 0.5931  auc 0.7902  recall 0.2012
+=== resnet18 cocoai
+{
+  "run": "resnet18",
+  "dataset": "COCOAI subset, held-out test split",
+  "threshold": 0.5,
+  "overall": {
+    "n": 6000,
+    "accuracy": 0.8133333333333334,
+    "precision": 0.8388054488298987,
+    "recall": 0.9606,
+    "f1": 0.895580831624091,
+    "confusion_matrix": {
+      "tn": 77,
+      "fp": 923,
+      "fn": 197,
+      "tp": 4803
+    },
+    "roc_auc": 0.6095656
+  },
+  "real_photos_correct": 0.077,
+  "per_generator": {
+    "DALLE3": {
+      "n": 2000,
+      "accuracy": 0.514,
+      "precision": 0.5074706510138741,
+      "recall": 0.951,
+      "f1": 0.6617954070981211,
+      "confusion_matrix": {
+        "tn": 77,
+        "fp": 923,
+        "fn": 49,
+        "tp": 951
+      },
+      "roc_auc": 0.519478,
+      "fakes_caught": 0.951
+    },
+    "Midjourney6": {
+      "n": 2000,
+      "accuracy": 0.492,
+      "precision": 0.49562841530054647,
+      "recall": 0.907,
+      "f1": 0.6409893992932862,
+      "confusion_matrix": {
+        "tn": 77,
+        "fp": 923,
+        "fn": 93,
+        "tp": 907
+      },
+      "roc_auc": 0.4365915,
+      "fakes_caught": 0.907
+    },
+    "SD2.1": {
+      "n": 2000,
+      "accuracy": 0.5325,
+      "precision": 0.5170068027210885,
+      "recall": 0.988,
+      "f1": 0.6788045345242185,
+      "confusion_matrix": {
+        "tn": 77,
+        "fp": 923,
+        "fn": 12,
+        "tp": 988
+      },
+      "roc_auc": 0.7528444999999999,
+      "fakes_caught": 0.988
+    },
+    "SD3": {
+      "n": 2000,
+      "accuracy": 0.529,
+      "precision": 0.5152310924369747,
+      "recall": 0.981,
+      "f1": 0.6756198347107438,
+      "confusion_matrix": {
+        "tn": 77,
+        "fp": 923,
+        "fn": 19,
+        "tp": 981
+      },
+      "roc_auc": 0.7377699999999999,
+      "fakes_caught": 0.981
+    },
+    "SDXL": {
+      "n": 2000,
+      "accuracy": 0.5265,
+      "precision": 0.5139547130068457,
+      "recall": 0.976,
+      "f1": 0.6733356329768886,
+      "confusion_matrix": {
+        "tn": 77,
+        "fp": 923,
+        "fn": 24,
+        "tp": 976
+      },
+      "roc_auc": 0.601144,
+      "fakes_caught": 0.976
+    }
+  }
+}

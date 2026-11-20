@@ -1,0 +1,97 @@
+{
+  "run": "resnet18",
+  "dataset": "COCOAI subset, held-out test split",
+  "threshold": 0.5,
+  "overall": {
+    "n": 6000,
+    "accuracy": 0.8133333333333334,
+    "precision": 0.8388054488298987,
+    "recall": 0.9606,
+    "f1": 0.895580831624091,
+    "confusion_matrix": {
+      "tn": 77,
+      "fp": 923,
+      "fn": 197,
+      "tp": 4803
+    },
+    "roc_auc": 0.6095656
+  },
+  "real_photos_correct": 0.077,
+  "per_generator": {
+    "DALLE3": {
+      "n": 2000,
+      "accuracy": 0.514,
+      "precision": 0.5074706510138741,
+      "recall": 0.951,
+      "f1": 0.6617954070981211,
+      "confusion_matrix": {
+        "tn": 77,
+        "fp": 923,
+        "fn": 49,
+        "tp": 951
+      },
+      "roc_auc": 0.519478,
+      "fakes_caught": 0.951
+    },
+    "Midjourney6": {
+      "n": 2000,
+      "accuracy": 0.492,
+      "precision": 0.49562841530054647,
+      "recall": 0.907,
+      "f1": 0.6409893992932862,
+      "confusion_matrix": {
+        "tn": 77,
+        "fp": 923,
+        "fn": 93,
+        "tp": 907
+      },
+      "roc_auc": 0.4365915,
+      "fakes_caught": 0.907
+    },
+    "SD2.1": {
+      "n": 2000,
+      "accuracy": 0.5325,
+      "precision": 0.5170068027210885,
+      "recall": 0.988,
+      "f1": 0.6788045345242185,
+      "confusion_matrix": {
+        "tn": 77,
+        "fp": 923,
+        "fn": 12,
+        "tp": 988
+      },
+      "roc_auc": 0.7528444999999999,
+      "fakes_caught": 0.988
+    },
+    "SD3": {
+      "n": 2000,
+      "accuracy": 0.529,
+      "precision": 0.5152310924369747,
+      "recall": 0.981,
+      "f1": 0.6756198347107438,
+      "confusion_matrix": {
+        "tn": 77,
+        "fp": 923,
+        "fn": 19,
+        "tp": 981
+      },
+      "roc_auc": 0.7377699999999999,
+      "fakes_caught": 0.981
+    },
+    "SDXL": {
+      "n": 2000,
+      "accuracy": 0.5265,
+      "precision": 0.5139547130068457,
+      "recall": 0.976,
+      "f1": 0.6733356329768886,
+      "confusion_matrix": {
+        "tn": 77,
+        "fp": 923,
+        "fn": 24,
+        "tp": 976
+      },
+      "roc_auc": 0.601144,
+      "fakes_caught": 0.976
+    }
+  }
+}

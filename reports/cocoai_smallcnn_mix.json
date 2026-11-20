@@ -1,0 +1,97 @@
+{
+  "run": "smallcnn_mix",
+  "dataset": "COCOAI subset, held-out test split",
+  "threshold": 0.5,
+  "overall": {
+    "n": 6000,
+    "accuracy": 0.6688333333333333,
+    "precision": 0.9223437061956826,
+    "recall": 0.658,
+    "f1": 0.7680634994747286,
+    "confusion_matrix": {
+      "tn": 723,
+      "fp": 277,
+      "fn": 1710,
+      "tp": 3290
+    },
+    "roc_auc": 0.742117
+  },
+  "real_photos_correct": 0.723,
+  "per_generator": {
+    "DALLE3": {
+      "n": 2000,
+      "accuracy": 0.682,
+      "precision": 0.6982570806100218,
+      "recall": 0.641,
+      "f1": 0.6684045881126173,
+      "confusion_matrix": {
+        "tn": 723,
+        "fp": 277,
+        "fn": 359,
+        "tp": 641
+      },
+      "roc_auc": 0.7313050000000001,
+      "fakes_caught": 0.641
+    },
+    "Midjourney6": {
+      "n": 2000,
+      "accuracy": 0.555,
+      "precision": 0.5828313253012049,
+      "recall": 0.387,
+      "f1": 0.4651442307692308,
+      "confusion_matrix": {
+        "tn": 723,
+        "fp": 277,
+        "fn": 613,
+        "tp": 387
+      },
+      "roc_auc": 0.578758,
+      "fakes_caught": 0.387
+    },
+    "SD2.1": {
+      "n": 2000,
+      "accuracy": 0.7845,
+      "precision": 0.7533392698130009,
+      "recall": 0.846,
+      "f1": 0.7969853980216675,
+      "confusion_matrix": {
+        "tn": 723,
+        "fp": 277,
+        "fn": 154,
+        "tp": 846
+      },
+      "roc_auc": 0.8530580000000001,
+      "fakes_caught": 0.846
+    },
+    "SD3": {
+      "n": 2000,
+      "accuracy": 0.718,
+      "precision": 0.7202020202020202,
+      "recall": 0.713,
+      "f1": 0.7165829145728643,
+      "confusion_matrix": {
+        "tn": 723,
+        "fp": 277,
+        "fn": 287,
+        "tp": 713
+      },
+      "roc_auc": 0.7707269999999999,
+      "fakes_caught": 0.713
+    },
+    "SDXL": {
+      "n": 2000,
+      "accuracy": 0.713,
+      "precision": 0.7173469387755103,
+      "recall": 0.703,
+      "f1": 0.7101010101010101,
+      "confusion_matrix": {
+        "tn": 723,
+        "fp": 277,
+        "fn": 297,
+        "tp": 703
+      },
+      "roc_auc": 0.776737,
+      "fakes_caught": 0.703
+    }
+  }
+}

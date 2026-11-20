@@ -1,0 +1,13 @@
+{
+  "run": "smallcnn_mix",
+  "temperature": 0.6199860341288965,
+  "fitted_on": "validation split",
+  "reported_on": "CIFAKE test set",
+  "val_nll_before": 0.15077554009755098,
+  "val_nll_after": 0.13450355012570533,
+  "test_nll_before": 0.15366822389087392,
+  "test_nll_after": 0.1402917550308329,
+  "test_ece_before": 0.037336593407392475,
+  "test_ece_after": 0.008632347604632383,
+  "n_bins": 15
+}
