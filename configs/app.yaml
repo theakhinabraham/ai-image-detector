@@ -1,0 +1,21 @@
+# Models offered by the web app (only those whose checkpoint exists are loaded).
+# The first one is the default. `trained_on` is shown in the warning under each result.
+models:
+  - name: resnet18_mix
+    label: ResNet18 + COCOAI fine-tune (recommended)
+    checkpoint: checkpoints/resnet18_mix.pt
+    calibration: reports/calibration_resnet18_mix.json
+    metrics: reports/metrics_resnet18_mix.json
+    trained_on: Stable Diffusion 1.4 (CIFAKE) plus a small sample of SD 2.1, SDXL, SD 3, DALL-E 3 and Midjourney 6
+  - name: resnet18
+    label: ResNet18 (64x64, CIFAKE only)
+    checkpoint: checkpoints/resnet18.pt
+    calibration: reports/calibration_resnet18.json
+    metrics: reports/metrics_resnet18.json
+    trained_on: Stable Diffusion 1.4 only (CIFAKE, 32x32 images)
+  - name: smallcnn
+    label: SmallCNN (32x32, CIFAKE only)
+    checkpoint: checkpoints/smallcnn.pt
+    calibration: reports/calibration_smallcnn.json
+    metrics: reports/metrics_smallcnn.json
+    trained_on: Stable Diffusion 1.4 only (CIFAKE, 32x32 images)
