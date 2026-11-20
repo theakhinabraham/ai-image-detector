@@ -1,0 +1,15 @@
+# Minimal packaging so `src` is importable from anywhere.
+# WHY: we run scripts with `python -I` (isolated mode), which does NOT add the
+# script's folder or the current folder to sys.path. An editable install
+# (`pip install -e .`) makes our own code importable without that.
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ai-image-detector"
+version = "0.1.0"
+requires-python = ">=3.11,<3.12"
+
+[tool.setuptools]
+packages = ["src"]

@@ -1,0 +1,15 @@
+# Data and model weights are large and must not be committed
+data/
+checkpoints/
+*.pt
+*.pth
+# Secrets
+.env
+kaggle.json
+# Python / tooling
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.DS_Store
+*.egg-info/

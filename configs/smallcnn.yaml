@@ -1,0 +1,12 @@
+# Experiment config for the baseline SmallCNN on CIFAKE (32x32).
+data:
+  root: data/raw/cifake        # contains train/{REAL,FAKE} and test/{REAL,FAKE}
+  splits_file: data/splits.json
+  val_fraction: 0.10           # 10% of the official train set held out for validation
+  img_size: 32                 # native CIFAKE resolution
+  # Normalise each channel to roughly [-1, 1]. Simple and model-agnostic.
+  mean: [0.5, 0.5, 0.5]
+  std: [0.5, 0.5, 0.5]
+  batch_size: 128
+  num_workers: 4
+seed: 42
