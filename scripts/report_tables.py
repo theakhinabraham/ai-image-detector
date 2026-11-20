@@ -31,7 +31,7 @@ def table(header: list[str], rows: list[list[str]]) -> str:
 
 def main_comparison() -> str:
     rows = []
-    for m in MODELS:
+    for m in MODELS + [x + "_mix" for x in MODELS]:
         met, tr = load(f"metrics_{m}.json"), load(f"train_{m}.json")
         if not met:
             rows.append([m] + [NA] * 8)
@@ -40,6 +40,7 @@ def main_comparison() -> str:
                      f(met["roc_auc"]), f"{met['parameters']:,}", f(met["cpu_ms_per_image"], 2),
                      tr["device"] if tr else NA,
                      f"{tr['mean_seconds_per_epoch']:.0f} s x {tr['epochs_run']}" if tr else NA])
+    rows = [r for r in rows if r[1] != NA or r[0] in MODELS]  # hide _mix rows that were never run
     return table(["Model", "Input", "Accuracy", "F1", "ROC-AUC", "Parameters", "CPU ms/image",
                   "Trained on", "Time/epoch x epochs"], rows)
 

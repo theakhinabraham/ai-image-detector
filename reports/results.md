@@ -6,6 +6,8 @@
 |---|---|---|---|---|---|---|---|---|
 | smallcnn | 32x32 | 0.9649 | 0.9651 | 0.9943 | 355,873 | 0.23 | cpu | 40 s x 15 |
 | resnet18 | 64x64 | 0.9778 | 0.9779 | 0.9977 | 11,177,025 | 3.14 | mps | 80 s x 6 |
+| smallcnn_mix | 32x32 | 0.9467 | 0.9472 | 0.9883 | 355,873 | 0.19 | cpu | 2 s x 10 |
+| resnet18_mix | 64x64 | 0.9648 | 0.9643 | 0.9952 | 11,177,025 | 3.16 | mps | 3 s x 10 |
 
 CPU ms/image: batch of 1 on this laptop's CPU, mean of 200 runs after warm-up.
 
