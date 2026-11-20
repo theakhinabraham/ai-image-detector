@@ -1,0 +1,22 @@
+# ResNet18 (ImageNet-pretrained) fine-tuned on CIFAKE upscaled to 64x64.
+# Same train.py as the baseline; only this config differs.
+run_name: resnet18
+seed: 42
+data:
+  root: data/raw/cifake
+  splits_file: data/splits.json   # SAME split as SmallCNN, so the comparison is fair
+  val_fraction: 0.10
+  img_size: 64                    # 32x32 upscaled; more spatial room for the deeper network
+  # ImageNet statistics: the pretrained weights expect inputs normalised this way
+  mean: [0.485, 0.456, 0.406]
+  std: [0.229, 0.224, 0.225]
+  batch_size: 128
+  num_workers: 6
+model:
+  name: resnet18
+train:
+  device: mps                     # Apple GPU locally; scripts/kaggle_train.py switches to cuda
+  epochs: 8
+  lr: 0.0003                      # smaller than from-scratch: pretrained weights need gentle updates
+  weight_decay: 0.0001
+  patience: 2
